@@ -1,0 +1,26 @@
+name: gov-tercerizados
+
+prefect-version: 3.4.9
+
+build:
+  - prefect_docker.deployments.steps.build_docker_image:
+      id: build-image
+      image_name: gov-tercerizados
+      tag: latest
+      dockerfile: Dockerfile
+
+push: null
+
+deployments:
+  - name: gov-tercerizados-deployment
+    entrypoint: flow.py:gov_tercerizados_flow
+
+    work_pool:
+      name: gov-tercerizados-pool
+      work_queue_name: default
+
+    infrastructure:
+      type: docker-container
+
+    parameters: {}
+    schedule: null

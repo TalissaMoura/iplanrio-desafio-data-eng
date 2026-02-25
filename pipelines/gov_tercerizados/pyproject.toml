@@ -1,0 +1,22 @@
+[project]
+name = "gov-tercerizados-pipeline"
+version = "0.1.0"
+description = "Orquestração Prefect + dbt"
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "prefect==3.4.9",
+    "prefect-dbt==0.6.3",
+    "dbt-core==1.7.9",
+    "dbt-duckdb==1.7.2",
+    "python-dotenv",
+    "prefect-docker"
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "black"
+]
+
