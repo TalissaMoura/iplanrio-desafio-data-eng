@@ -1,37 +1,47 @@
 from prefect import flow, task, get_run_logger
-from prefect_dbt.cli import DbtCoreOperation
+from prefect_dbt import PrefectDbtRunner, PrefectDbtSettings
+from pathlib import Path
 
 
-DBT_PROJECT_DIR = "/app/dbt"  # ajuste se necessário
-DBT_PROFILES_DIR = "/app/dbt"  # ajuste se necessário
+DBT_PROJECT_DIR = "dw"  # ajuste se necessário
+DBT_PROFILES_DIR = "dw/.dbt"  # ajuste se necessário
 
 
-@task
-def dbt_deps():
-    logger = get_run_logger()
-    logger.info("Instalando dependências do dbt...")
 
-    result = DbtCoreOperation(
-        commands=["dbt deps"],
-        project_dir=DBT_PROJECT_DIR,
-        profiles_dir=DBT_PROFILES_DIR,
-    ).run()
+def run_dbt_commands(commands: list[str], project_dir: Path, profiles_dir: Path) -> None:
+    """Run dbt commands using the modern prefect-dbt integration.
 
-    return result
+    Uses PrefectDbtRunner which provides enhanced logging, failure handling,
+    and automatic Prefect event emission for dbt node status changes.
+    This is much more robust than subprocess calls and integrates natively
+    with Prefect's observability features.
+    """
 
+    print(f"Running dbt commands: {commands}\n")
 
-@task
+    # Configure dbt settings to point to our project directory
+    settings = PrefectDbtSettings(
+        project_dir=str(project_dir),
+        profiles_dir=str(profiles_dir),  
+    )
+
+    # Create runner and execute commands
+    # Use raise_on_failure=False to handle dbt failures more gracefully
+    runner = PrefectDbtRunner(settings=settings, raise_on_failure=False)
+
+    for command in commands:
+        clean_command = command.strip() 
+        print(f"Executing: dbt {clean_command}")
+        # O invoke espera uma lista de argumentos sem o prefixo 'dbt'
+        runner.invoke(clean_command.split())
+
+@task(name="Run dbt commands for ouro.brutos_tercerizados")
 def dbt_run_ouro():
-    logger = get_run_logger()
-    logger.info("Executando modelo ouro.gov_tercerizados...")
-
-    result = DbtCoreOperation(
-        commands=["dbt run --select ouro.gov_tercerizados"],
-        project_dir=DBT_PROJECT_DIR,
-        profiles_dir=DBT_PROFILES_DIR,
-    ).run()
-
-    return result
+    run_dbt_commands(
+        commands=["run --select brutos_terceirizados"],
+        project_dir=Path(DBT_PROJECT_DIR),
+        profiles_dir=Path(DBT_PROFILES_DIR)
+    )
 
 
 @flow(name="gov-tercerizados-dbt-flow")
@@ -39,7 +49,7 @@ def gov_tercerizados_flow():
     """
     Flow que executa o modelo ouro.gov_tercerizados via dbt
     """
-    dbt_deps()
+    # dbt_deps()
     dbt_run_ouro()
 
 
