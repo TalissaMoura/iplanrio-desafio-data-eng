@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  - name: brutos_terceirizados
+    description: >
+      Tabela ouro contendo dados padronizados de terceirizados.
+      Os dados são lidos de arquivos parquet da camada raw,
+      com padronização de nomes, ajuste de tipos e separação
+      da categoria profissional.
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_terceirizado
+            - mes_numero
+            - ano
+
+    columns:
+
+      - name: id_terceirizado
+        description: Identificador do terceirizado no dataset.
+        tests:
+          - not_null
+
+      - name: orgao_superior_sigla
+        description: Sigla do órgão superior vinculado à unidade gestora.
+
+      - name: unidade_gestora_codigo
+        description: Código numérico da unidade gestora.
+        tests:
+          - not_null
+
+      - name: unidade_gestora_nome
+        description: Nome completo da unidade gestora.
+
+      - name: unidade_gestora_sigla
+        description: Sigla da unidade gestora.
+
+      - name: numero_contrato
+        description: Número do contrato vinculado ao terceirizado.
+
+      - name: cnpj
+        description: CNPJ da empresa contratada (mantido como string).
+        tests:
+          - not_null
+
+      - name: razao_social
+        description: Razão social da empresa contratada.
+
+      - name: cpf
+        description: CPF do terceirizado (mantido como string).
+        tests:
+          - not_null
+
+      - name: nome_terceirizado
+        description: Nome completo do terceirizado.
+
+      - name: id_categoria_profissional
+        description: Código numérico da categoria profissional.
+        tests:
+          - not_null
+
+      - name: categoria_profissional_nome
+        description: Nome descritivo da categoria profissional.
+
+      - name: escolaridade
+        description: Nível de escolaridade do terceirizado.
+
+      - name: jornada_horas
+        description: Quantidade de horas de jornada de trabalho.
+
+      - name: unidade_prestacao
+        description: Unidade onde o serviço é prestado.
+
+      - name: salario_mensal_valor
+        description: Valor mensal do salário do terceirizado.
+
+      - name: custo_mensal_valor
+        description: Custo mensal total do terceirizado para o contrato.
+
+      - name: mes_numero
+        description: Número do mês de referência da carga.
+        tests:
+          - not_null
+
+      - name: mes_nome
+        description: Nome do mês de referência da carga.
+
+      - name: ano
+        description: Ano de referência da carga.
+        tests:
+          - not_null
+
+      - name: orgao_sigla
+        description: Sigla do órgão ao qual o terceirizado está vinculado.
+
+      - name: orgao_nome
+        description: Nome completo do órgão.
+
+      - name: orgao_codigo_siafi
+        description: Código do órgão no sistema SIAFI.
+
+      - name: orgao_codigo_siape
+        description: Código do órgão no sistema SIAPE.
+
+      - name: data_processamento
+        description: Timestamp indicando quando o modelo foi processado.
