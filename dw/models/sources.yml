@@ -1,0 +1,10 @@
+version: 1
+
+sources:
+  - name: raw
+    schema: raw
+
+    tables:
+      - name: terceirizados
+        meta:
+          external_location: "{{ var('raw_base_path') }}/*.parquet"

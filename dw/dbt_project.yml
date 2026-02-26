@@ -1,0 +1,40 @@
+name: 'dw'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dw'
+vars:
+  raw_base_path: "../data/raw"
+
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+analysis-paths: ["analysis"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+
+models:
+  dw:
+
+    staging:
+      +schema: bronze
+      +materialized: view
+      raw:
+        +materialized: view
+        
+
+    core:
+      +materialized: table
+      +schema: prata
+
+      dimensions:
+        +materialized: table
+
+      fact:
+        +materialized: incremental
+        +unique_key: ['id_terc','id_contrato','id_orgao','id_tempo']
+
+    marts:
+      +materialized: table
+      +schema: ouro
