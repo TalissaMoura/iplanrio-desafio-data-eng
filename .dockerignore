@@ -1,0 +1,18 @@
+# Ignora ambientes virtuais
+**/.venv/
+**/.env/
+venv/
+
+# Ignora artefatos do dbt (queremos que o container gere os dele)
+dw/dbt_packages/
+dw/target/
+dw/logs/
+dw/package-lock.yml
+
+# Ignora caches de Python
+**/__pycache__/
+**/*.pyc
+
+# Ignora arquivos de sistema
+.DS_Store
+.git/
