@@ -1,0 +1,23 @@
+[project]
+name = "dw-project-iplanrio"
+version = "0.1.0"
+description = "Orquestração Prefect + dbt"
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "prefect==3.4.9",
+    "prefect-dbt>=0.7.0rc1",
+    "dbt-core==1.8.2",       # Subindo para a .2 que é mais estável
+    "dbt-duckdb==1.8.2",     # Casando exatamente com o core
+    "protobuf==4.25.3",
+    "python-dotenv",
+    "prefect-docker"
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "black"
+]
+
