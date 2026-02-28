@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_orgaos
+    description: "Dimensão que contém os detalhes dos órgãos (entidades filhas) vinculados aos órgãos superiores."
+    
+    columns:
+      - name: id_orgao
+        description: "Chave primária (Hash) gerada a partir do nome e sigla do órgão."
+        tests:
+          - unique
+          - not_null
+
+      - name: id_orgao_superior
+        description: "Chave estrangeira (Hash) que relaciona o órgão ao seu respectivo Órgão Superior."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_orgao_superior')
+              field: id_orgao_superior
+
+      - name: orgao_nome
+        description: "Nome completo do órgão."
+        tests:
+          - not_null
+
+      - name: orgao_sigla
+        description: "Sigla identificadora do órgão."
+
+      - name: orgao_codigo_siafi
+        description: "Código do órgão no sistema SIAFI."
+
+      - name: orgao_codigo_siape
+        description: "Código do órgão no sistema SIAPE."
