@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: dim_periodo
+    description: >
+      Dimensão de tempo na camada prata.
+      Gerada a partir de uma série mensal entre 2020-01-01 e 2030-12-01.
+      Cada linha representa um mês de referência contendo
+      identificador hash, número do mês, nome do mês e ano.
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - mes_numero
+            - ano
+
+    columns:
+
+      - name: id_tempo
+        description: Identificador único do mês, gerado via hash de mês e ano.
+        tests:
+          - not_null
+          - unique
+
+      - name: mes_numero
+        description: Número do mês (1 a 12).
+        tests:
+          - not_null
+
+      - name: mes_nome
+        description: Nome do mês por extenso.
+
+      - name: ano
+        description: Ano de referência.
+        tests:
+          - not_null
