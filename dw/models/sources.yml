@@ -1,10 +1,17 @@
 version: 1
 
 sources:
-  - name: raw
-    schema: raw
-
+  - name: staging
+    schema: bronze
     tables:
-      - name: terceirizados
-        meta:
-          external_location: "{{ var('raw_base_path') }}/*.parquet"
+        - name: bronze_brutos_terceirizados
+          description: "Tabela de dados brutos dos terceirizados, sem transformações, armazenada na camada bronze. Esta tabela é atualizada mensalmente e contém informações detalhadas sobre os contratos de terceirização, incluindo dados de identificação, valores, prazos e órgãos envolvidos. Serve como base para as transformações e análises subsequentes nas camadas prata e ouro do data warehouse."
+          external_location: "gs://dw-bucket-storage/bronze/brutos_tercerizados.parquet"
+  
+  - name: core_facts
+    schema: prata
+    tables:
+        - name: fact_contratos_terceirizados
+          description: "Tabela fato que consolida os dados dos contratos de terceirização, armazenada na camada prata. Esta tabela é atualizada mensalmente e contém informações agregadas sobre os contratos, incluindo chaves estrangeiras para as dimensões de tempo, órgão e terceirizado, além de métricas como valor total do contrato e duração. Serve como base para análises e relatórios na camada ouro do data warehouse."
+          external_location: "gs://dw-bucket-storage/prata/fact_contratos_terceirizados.parquet"
+        
