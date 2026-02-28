@@ -18,3 +18,7 @@ dw/.dbt
 # Ignora arquivos de sistema
 .DS_Store
 .git/
+
+# Ignora arquivos de configuração local
+.credentials/
+**.duckdb
