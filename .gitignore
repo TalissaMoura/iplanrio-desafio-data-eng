@@ -18,3 +18,8 @@ dw/.dbt
 # Ignora arquivos de sistema
 .DS_Store
 .git/
+
+# Igora arquivos de configuração do VSCode
+.credentials/
+.vscode/
+**.duckdb
