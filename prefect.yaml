@@ -6,10 +6,10 @@ build:
   - prefect_docker.deployments.steps.build_docker_image:
       id: build-image
       requires: prefect-docker
-      image_name: gov-tercerizados
+      image_name: gov-terceirizados
       tag: latest
-      path: "."                # Como o YAML está na raiz, "." pega tudo
-      dockerfile: "Dockerfile" # Dockerfile está na mesma pasta
+      path: "."               
+      dockerfile: "Dockerfile"
       nocache: true
 
 push: null
@@ -19,9 +19,9 @@ pull:
       directory: "/app"       # Caminho padrão dentro do container
 
 deployments:
-  - name: gov-tercerizados
+  - name: gov-terceirizados
     # Caminho do flow a partir da raiz
-    entrypoint: "pipelines/gov_tercerizados/flow.py:gov_tercerizados_flow"
+    entrypoint: "pipelines/gov_terceirizados/flow.py:gov_terceirizados_flow"
     work_pool:
       name: "gov-tercerizados-v2"      # Use o nome do seu pool configurado
     job_variables:
