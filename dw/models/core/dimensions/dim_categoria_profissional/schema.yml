@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: dim_categoria_profissional
+    description: >
+      Dimensão de categoria profissional na camada prata.
+      Contém as categorias profissionais extraídas da tabela
+      brutos_terceirizados.
+      Modelo incremental com estratégia merge,
+      utilizando id_categoria_profissional como chave única.
+
+    columns:
+
+      - name: id_categoria_profissional
+        description: Identificador único da categoria profissional.
+        tests:
+          - not_null
+          - unique
+
+      - name: categoria_profissional_nome
+        description: Nome descritivo da categoria profissional.
+        tests:
+          - not_null
