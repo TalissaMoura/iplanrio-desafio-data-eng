@@ -1,0 +1,7 @@
+bucket_name: "dw-bucket-storage"
+
+layers:
+  bronze: "bronze/"
+  prata: "silver/"
+  ouro: "gold/"
+  raw: "raw/"
