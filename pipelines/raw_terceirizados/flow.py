@@ -21,6 +21,7 @@ import time
 
 
 # PIPELINE DATE
+REF_DATE = datetime().strftime("%Y-%m")
 
 # PATHS
 ROOT_DIR = Path(__file__).resolve().parents[2] 
@@ -294,7 +295,6 @@ def raw_terceirizados_flow(periodo: str):
 
 
 if __name__ == "__main__":
-    REF_DATE = datetime(2025, 5, 1).strftime("%Y-%m")
     raw_terceirizados_flow(
        periodo = REF_DATE
     )
