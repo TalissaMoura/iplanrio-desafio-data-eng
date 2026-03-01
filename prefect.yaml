@@ -1,13 +1,13 @@
 # prefect.yaml (NA RAIZ do projeto)
-name: gov-tercerizados
+name: gov_terceirizados
 prefect-version: 3.4.9
 
 build:
   - prefect_docker.deployments.steps.build_docker_image:
       id: build-image
       requires: prefect-docker
-      image_name: gov-terceirizados
       tag: latest
+      image_name: gov_terceirizados:latest
       path: "."               
       dockerfile: "Dockerfile"
       nocache: true
@@ -23,9 +23,28 @@ deployments:
     # Caminho do flow a partir da raiz
     entrypoint: "pipelines/gov_terceirizados/flow.py:gov_terceirizados_flow"
     work_pool:
-      name: "gov-tercerizados-v2"      # Use o nome do seu pool configurado
+      name: "gov-terceirizados"
     job_variables:
       image: "{{ build-image.image }}"
       image_pull_policy: Never
       env:
         PYTHONPATH: "/app"    # Permite que o Python ache as pastas 'dw' e 'pipelines'
+    schedule:
+      cron: "0 18 11 * *"
+      timezone: "America/Sao_Paulo"
+      start_date: "2022-01-01T00:00:00"
+
+  - name: raw-terceirizados
+    # Caminho do flow a partir da raiz
+    entrypoint: "pipelines/raw_terceirizados/flow.py:raw_terceirizados_flow"
+    work_pool:
+      name: "gov-terceirizados"
+    job_variables:
+      image: "{{ build-image.image }}"
+      image_pull_policy: Never
+      env:
+        PYTHONPATH: "/app"   
+    schedule:
+      cron: "0 18 10 * *"
+      timezone: "America/Sao_Paulo"
+      start_date: "2022-01-01T00:00:00"
