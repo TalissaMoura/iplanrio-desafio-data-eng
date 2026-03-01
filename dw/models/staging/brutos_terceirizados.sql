@@ -5,12 +5,10 @@
 ) }}
 
 
-
-
 with source_data as (
 
     select *
-    from read_csv('{{ var("parquet_path") }}',delim=";",header=true,store_rejects=true)
+    from read_parquet('{{ var("parquet_path") }}')
 
 ),
 
