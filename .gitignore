@@ -1,6 +1,7 @@
 # Ignora ambientes virtuais
 **/.venv/
 .env
+.dev.env
 venv/
 
 # Ignora artefatos do dbt (queremos que o container gere os dele)
