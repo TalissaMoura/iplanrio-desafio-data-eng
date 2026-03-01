@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: fact_contratos_terceirizados
+    description: >
+      Tabela fato contendo os valores financeiros de terceirizados
+      por contrato, órgão e mês de referência. 
+      Modelo incremental com estratégia merge,
+      utilizando id_fato como chave única.
+      O valor de id dessa tabela é gerado 
+      a partir de um hash das chaves estrangeiras
+      para garantir a unicidade dos registros (id_terceirizado,
+      id_contrato, id_orgao, id_tempo).
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_terceirizado
+            - id_contrato
+            - id_orgao
+            - id_tempo
+
+    columns:
+      - name: id_fato
+        description: Identificador único do fato, gerado a partir de um hash das chaves estrangeiras.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_terceirizado
+        description: Chave estrangeira para dim_terceirizado.
+        tests:
+          - not_null
+
+      - name: id_contrato
+        description: Identificador do contrato.
+
+      - name: id_orgao
+        description: Chave estrangeira para dim_orgao.
+
+      - name: id_orgao_superior
+        description: Chave estrangeira para dim_orgaos_superiores
+
+      - name: id_tempo
+        description: Chave estrangeira para dim_tempo.
+        tests:
+          - not_null
+
+      - name: valor_custo
+        description: Valor total mensal do custo do terceirizado.
+
+      - name: valor_salario
+        description: Valor mensal do salário do terceirizado.
