@@ -18,7 +18,13 @@ orgaos_superiores_terceirizado as (
         fct_contratos.id_terceirizado,
         dim_terc.cnpj,
         dim_terc.cpf,
-        dim_orgaos_superiores.orgao_superior_sigla
+        dim_orgaos_superiores.orgao_superior_sigla,
+        row_number()
+            over (
+                partition by fct_contratos.id_terceirizado
+                order by fct_contratos.id_tempo desc
+            )
+            as rn
     from {{ ref('fact_contratos_terceirizados') }} as fct_contratos
     inner join ultima_particao_id as tempo
         on fct_contratos.id_tempo = tempo.ultima_particao_id
@@ -36,3 +42,4 @@ select
     cpf,
     orgao_superior_sigla
 from orgaos_superiores_terceirizado
+where rn = 1
