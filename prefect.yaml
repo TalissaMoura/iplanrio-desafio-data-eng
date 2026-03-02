@@ -8,7 +8,7 @@ build:
       requires: prefect-docker
       tag: latest
       image_name: gov_terceirizados:latest
-      path: "."               
+      path: "."
       dockerfile: "Dockerfile"
       nocache: true
 
@@ -23,7 +23,7 @@ deployments:
     # Caminho do flow a partir da raiz
     entrypoint: "pipelines/gov_terceirizados/flow.py:gov_terceirizados_flow"
     work_pool:
-      name: "gov-terceirizados"
+      name: "gov_terceirizados_worker"
     job_variables:
       image: "{{ build-image.image }}"
       image_pull_policy: Never
@@ -38,12 +38,12 @@ deployments:
     # Caminho do flow a partir da raiz
     entrypoint: "pipelines/raw_terceirizados/flow.py:raw_terceirizados_flow"
     work_pool:
-      name: "gov-terceirizados"
+      name: "gov_terceirizados_worker"
     job_variables:
       image: "{{ build-image.image }}"
       image_pull_policy: Never
       env:
-        PYTHONPATH: "/app"   
+        PYTHONPATH: "/app"
     schedule:
       cron: "0 18 10 * *"
       timezone: "America/Sao_Paulo"
