@@ -233,14 +233,14 @@ def convert_to_parquet(file_path, periodo):
 # -- SEND TO GCS --
 def send_to_gcs(file_path, config):
     bucket_name = config["bucket_name"]
-    destination_blob_name = "raw"
+    destination_blob_name = f"raw/{file_path}"
 
     try:
         client = storage.Client()
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_blob_name)
         blob.upload_from_filename(file_path)
-        logger.info(f"[GCS] Arquivo enviado para {bucket_name}/{destination_blob_name}")
+        logger.info(f"[GCS] Arquivo enviado para {bucket_name}{destination_blob_name}")
     except Exception as e:
         logger.error(f"[ERRO] Falha ao enviar para GCS: {e}")
 
@@ -260,7 +260,7 @@ def main(periodo=None):
     args = parser.parse_args()
     data = args.periodo.strip() if not periodo else periodo.strip()
 
-    # Passo 1: Busca todos os possíveis
+    # # Passo 1: Busca todos os possíveis
     session = get_secure_session()
     candidates = fetch_candidates(session, data)
 
