@@ -72,30 +72,32 @@ dbt-test:
 
 
 # ================================
-# LINT
+# LINT & HOOKS
 # ================================
 
-.PHONY: lint
-lint: lint-python lint-sql
+.PHONY: install-hooks
+install-hooks:
+	pre-commit install
 
-# Python lint (rápido)
+
+.PHONY: lint
+lint:
+	pre-commit run --all-files
+
+
 .PHONY: lint-python
 lint-python:
 	ruff check $(PYTHON_SRC)
 	black --check $(PYTHON_SRC)
 	mypy $(PYTHON_SRC)
 
-# SQL/dbt lint
 .PHONY: lint-sql
 lint-sql:
 	sqlfluff lint $(SQL_PATH) --dialect duckdb
 
-# Auto formatação
 .PHONY: format
 format:
-	black $(TARGET)
-	ruff check --fix $(TARGET)
-	sqlfluff fix $(TARGET) --dialect duckdb
+	pre-commit run --all-files
 
 clean:
 	@echo "Limpando artefatos..."
@@ -118,7 +120,7 @@ prefect-worker:
 		echo "Worker $(WORKER_NAME) já existe. Iniciando..."; \
 	else \
 		echo "Worker $(WORKER_NAME) não existe. Criando..."; \
-		prefect work-pool create "$(WORKER_NAME)" --type docker; \
+		prefect work-pool create "$(WORKER_NAME)" --type docker --overwrite; \
 	fi
 
 	@echo "Iniciando worker $(WORKER_NAME)..."
@@ -137,4 +139,3 @@ local-data:
 	python scripts/sync_gcs --layer all
 fetch-data:
 	python scripts/fetch_terceirizados_data.py --periodo $(PERIODO)
-
