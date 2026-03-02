@@ -143,13 +143,20 @@ def dbt_run_silver_facts(facts_dir: Path):
 
 @task(name="Run Gold Layer")
 def dbt_run_gold():
-    run_dbt_commands(commands=[["run", "--select", "mart_terceirizados"]])
+    sql_files = sorted([file.name for file in GOLD_DIR.rglob("*.sql")])
 
-    export_to_gcs(
-        model_name="mart_terceirizados",
-        schema="gold",
-        path_to_parquet=str(GOLD_BUCKET + "/mart_terceirizados.parquet"),
-    )
+    for sql_file in sql_files:
+        model_name, _ = sql_file.split(".")  # nome do arquivo sem .sql
+
+        run_dbt_commands(commands=[["run", "--select", model_name]])
+
+        export_to_gcs(
+            model_name=model_name,
+            schema="ouro",
+            path_to_parquet=str(
+                GOLD_BUCKET + f"/{model_name}" + f"/{model_name}.parquet"
+            ),
+        )
 
 
 @flow(name="terceirizados-pipeline")
@@ -163,10 +170,10 @@ def gov_terceirizados_flow(
     raw (parquet) -> bronze (merge) -> silver -> gold
     """
 
-    dbt_run_bronze(partition=partition)
-    dbt_run_silver_dims(dimensions_dir=dimensions_dir)
-    dbt_run_silver_facts(facts_dir=facts_dir)
-    dbt_run_gold()
+    bronze = dbt_run_bronze(partition=partition)
+    silver_dims = dbt_run_silver_dims(dimensions_dir=dimensions_dir, wait_for=[bronze])
+    silver_facts = dbt_run_silver_facts(facts_dir=facts_dir, wait_for=[silver_dims])
+    dbt_run_gold(wait_for=[silver_facts])
 
 
 if __name__ == "__main__":
