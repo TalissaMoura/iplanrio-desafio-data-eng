@@ -170,7 +170,6 @@ def filter_latest_version(session, candidates):
 
 # -- DOWNLOAD --
 def download_with_retry(session, file_url, max_attempts=3):
-
     download_target = file_url.replace("/view", "/@@download/file")
     filename = file_url.replace("/view", "").split("/")[-1]
     file_path = os.path.join(DOWNLOAD_DIR, filename)
