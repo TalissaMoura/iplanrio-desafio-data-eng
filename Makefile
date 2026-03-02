@@ -9,7 +9,7 @@ DBT_PROFILES_DIR=./dw
 WORKER_NAME=$(PROJECT_NAME)_worker
 
 PYTHON_SRC=.
-SQL_PATH=models
+SQL_PATH=dw/models
 
 # ================================
 # Help
@@ -88,14 +88,14 @@ lint-python:
 # SQL/dbt lint
 .PHONY: lint-sql
 lint-sql:
-	sqlfluff lint $(SQL_PATH)
+	sqlfluff lint $(SQL_PATH) --dialect duckdb
 
 # Auto formatação
 .PHONY: format
 format:
 	black $(TARGET)
 	ruff check --fix $(TARGET)
-	sqlfluff fix $(TARGET)
+	sqlfluff fix $(TARGET) --dialect duckdb
 
 clean:
 	@echo "Limpando artefatos..."
