@@ -4,10 +4,10 @@ models:
   - name: fact_contratos_terceirizados
     description: >
       Tabela fato contendo os valores financeiros de terceirizados
-      por contrato, órgão e mês de referência. 
+      por contrato, órgão e mês de referência.
       Modelo incremental com estratégia merge,
       utilizando id_fato como chave única.
-      O valor de id dessa tabela é gerado 
+      O valor de id dessa tabela é gerado
       a partir de um hash das chaves estrangeiras
       para garantir a unicidade dos registros (id_terceirizado,
       id_contrato, id_orgao, id_tempo).
