@@ -17,7 +17,7 @@ import time
 
 
 # PIPELINE DATE
-REF_DATE = datetime().strftime("%Y-%m")
+REF_DATE = datetime.now().strftime("%Y-%m")
 
 # PATHS
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -181,7 +181,6 @@ def filter_latest_version(session, candidates):
 
 # -- DOWNLOAD --
 def download_with_retry(session, file_url, max_attempts=3):
-
     logger = get_run_logger()
 
     download_target = file_url.replace("/view", "/@@download/file")
