@@ -19,14 +19,18 @@ COPY pyproject.toml ./
 # Instala as dependências (Python + dbt + Prefect)
 RUN uv pip install --system --no-cache .
 
+# Instala as dependencias do duckdb e do httpfs para o dbt
+RUN python -c "import duckdb; \
+con=duckdb.connect(); \
+con.execute('INSTALL httpfs;'); \
+con.execute('LOAD httpfs;'); \
+con.close()"
+
 # 2. Copia TODO o projeto para o container
 
 COPY . .
 
 # 3. instala o dbt-deps
 RUN dbt deps --project-dir dw --profiles-dir dw/.dbt
-
-# Expõe a variável de ambiente para que o Python encontre seus módulos
-ENV PYTHONPATH="/app"
 
 

@@ -1,6 +1,7 @@
 # Ignora ambientes virtuais
 **/.venv/
 .env
+.dev.env
 venv/
 
 # Ignora artefatos do dbt (queremos que o container gere os dele)
@@ -19,6 +20,7 @@ dw/.dbt
 .DS_Store
 .git/
 
-# Ignora arquivos de configuração local
+# Igora arquivos de configuração do VSCode
 .credentials/
+.vscode/
 **.duckdb

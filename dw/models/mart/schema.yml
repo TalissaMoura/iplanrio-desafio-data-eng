@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: fato_contrato_terceirizados
+    description: >
+      Tabela fato contendo os valores financeiros de terceirizados
+      por contrato, órgão e mês de referência.
+      O grão da tabela é:
+      (id_terc, id_contrato, id_orgao, id_tempo).
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_terc
+            - id_contrato
+            - id_orgao
+            - id_tempo
+
+    columns:
+
+      - name: id_terc
+        description: Chave estrangeira para dim_terceirizado.
+        tests:
+          - not_null
+
+      - name: id_contrato
+        description: Identificador do contrato.
+
+      - name: id_orgao
+        description: Chave estrangeira para dim_orgao.
+
+      - name: id_tempo
+        description: Chave estrangeira para dim_tempo.
+        tests:
+          - not_null
+
+      - name: valor_custo
+        description: Valor total mensal do custo do terceirizado.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "valor_custo >= 0"
+
+      - name: valor_salario
+        description: Valor mensal do salário do terceirizado.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "valor_salario >= 0"
