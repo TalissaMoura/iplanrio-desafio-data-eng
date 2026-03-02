@@ -32,7 +32,5 @@ from source as s
 
 {% if is_incremental() %}
     -- No modo incremental, pegamos apenas dados novos para processar
-    where
-        (s.ano * 100 + s.mes_numero)
-        >= (select max(t.ano * 100 + t.mes_numero) from {{ this }} as t)
+    where s.id_tempo >= (select max(t.id_tempo) from {{ this }} as t)
 {% endif %}
