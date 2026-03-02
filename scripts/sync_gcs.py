@@ -4,9 +4,12 @@ from pathlib import Path
 from datetime import datetime, timezone
 from google.cloud import storage
 import sys
-import os 
+import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))  # Adiciona o diretório pai ao sys.path
+sys.path.append(
+    os.path.join(os.path.dirname(__file__), "..")
+)  # Adiciona o diretório pai ao sys.path
+
 
 def load_config():
     with open("config/sync_gcs_config.yml", "r") as f:
@@ -48,8 +51,7 @@ def download_layer(bucket, prefix, local_base_path, incremental=False):
 
         if incremental and local_path.exists():
             local_modified = datetime.fromtimestamp(
-                local_path.stat().st_mtime,
-                tz=timezone.utc
+                local_path.stat().st_mtime, tz=timezone.utc
             )
 
             if blob.updated <= local_modified:

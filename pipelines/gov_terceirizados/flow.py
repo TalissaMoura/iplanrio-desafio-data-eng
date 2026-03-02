@@ -170,6 +170,4 @@ def gov_terceirizados_flow(
 
 
 if __name__ == "__main__":
-    gov_terceirizados_flow(
-        dimensions_dir=DIMENSIONS_DIR, facts_dir=FACTS_DIR
-    )
+    gov_terceirizados_flow(dimensions_dir=DIMENSIONS_DIR, facts_dir=FACTS_DIR)
