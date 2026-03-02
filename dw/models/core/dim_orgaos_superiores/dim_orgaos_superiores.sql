@@ -8,9 +8,9 @@ config(
 )
 }}
 
-SELECT 
-    hash(unidade_gestora_nome,unidade_gestora_codigo) id_orgao_superior,
+SELECT
     orgao_superior_sigla,
     unidade_gestora_codigo,
-    unidade_gestora_nome
+    unidade_gestora_nome,
+    hash(unidade_gestora_nome, unidade_gestora_codigo) AS id_orgao_superior
 FROM {{ ref('brutos_terceirizados') }}

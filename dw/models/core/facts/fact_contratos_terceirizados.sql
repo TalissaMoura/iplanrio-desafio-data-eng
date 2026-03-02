@@ -9,31 +9,32 @@ config(
 }}
 
 with source as (
-  SELECT 
-      -- Dimensões (Chaves Estrangeiras)
-      id_terceirizado,
-      hash(numero_contrato) as id_contrato,
-      hash(orgao_nome, orgao_sigla) as id_orgao,
-      hash(unidade_gestora_nome,unidade_gestora_codigo) as id_orgao_superior,
-      (ano * 100 + mes_numero)::int as id_tempo,
+    select
+    
+        id_terceirizado,
+        (ano * 100 + mes_numero)::int as id_tempo,
+        salario_mensal_valor,
+        custo_mensal_valor,
+        data_processamento,
 
-      -- Métricas (Fatos)
-      cast(salario_mensal_valor as float) as salario_mensal_valor, 
-      cast(custo_mensal_valor as float) as custo_mensal_valor,
 
-      -- Auditoria
-      data_processamento
+        hash(numero_contrato) as id_contrato,
+        hash(orgao_nome, orgao_sigla) as id_orgao,
 
-  FROM {{ ref('brutos_terceirizados') }}
+
+        hash(unidade_gestora_nome, unidade_gestora_codigo) as id_orgao_superior
+
+    from {{ ref('brutos_terceirizados') }}
 )
 
-
-select 
-  hash(id_terceirizado, id_contrato, id_orgao,id_tempo) as id_fato,
-  s.*
-from source s
+select
+    s.*,
+    hash(s.id_terceirizado, s.id_contrato, s.id_orgao, s.id_tempo) as id_fato
+from source as s
 
 {% if is_incremental() %}
-  -- No modo incremental, pegamos apenas dados novos para processar
-  WHERE (ano * 100 + mes_numero) >= (SELECT max(ano * 100 + mes_numero) FROM {{ this }})
+    -- No modo incremental, pegamos apenas dados novos para processar
+    where
+        (s.ano * 100 + s.mes_numero)
+        >= (select max(ano * 100 + mes_numero) from {{ this }})
 {% endif %}

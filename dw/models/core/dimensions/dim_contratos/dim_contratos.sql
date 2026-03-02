@@ -8,7 +8,7 @@ config(
 )
 }}
 
-SELECT 
-  hash(numero_contrato) as id_contrato,
-  numero_contrato
+SELECT
+    numero_contrato,
+    hash(numero_contrato) AS id_contrato
 FROM {{ ref('brutos_terceirizados') }}

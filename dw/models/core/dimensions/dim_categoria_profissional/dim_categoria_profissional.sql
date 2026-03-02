@@ -8,7 +8,7 @@ config(
 )
 }}
 
-SELECT 
-  id_categoria_profissional,
-  categoria_profissional_nome
+SELECT
+    id_categoria_profissional,
+    categoria_profissional_nome
 FROM {{ ref('brutos_terceirizados') }}
