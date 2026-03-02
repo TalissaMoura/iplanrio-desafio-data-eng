@@ -3,7 +3,7 @@ version: 2
 models:
   - name: dim_contratos
     description: "Dimensão que armazena os números dos contratos firmados para a prestação de serviços terceirizados."
-    
+
     columns:
       - name: id_contrato
         description: "Chave primária (Hash) gerada a partir do número do contrato."

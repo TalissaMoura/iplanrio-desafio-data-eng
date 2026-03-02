@@ -22,7 +22,7 @@ models:
       +materialized: view
       raw:
         +materialized: view
-        
+
 
     core:
       +materialized: table
