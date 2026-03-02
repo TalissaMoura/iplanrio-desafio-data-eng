@@ -32,5 +32,3 @@ COPY . .
 
 # 3. instala o dbt-deps
 RUN dbt deps --project-dir dw --profiles-dir dw/.dbt
-
-
