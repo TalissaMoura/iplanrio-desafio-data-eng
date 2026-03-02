@@ -28,6 +28,7 @@ dependencies = [
 dev-dependencies = [
     "pytest",
     "ruff",
-    "black"
+    "black",
+    "pre-commit",
+    "mypy"
 ]
-
