@@ -28,7 +28,7 @@ O projeto é dividido em:
 Os dados são organizados em camadas, seguindo uma arquitetura de data lake de medalhão (gold, silver e bronze).
 
 <p align="center">
-  <img src="docs/diagrama_arq_projeto_datalake.svg" width="700"/>
+  <img src="https://github.com/TalissaMoura/iplanrio-desafio-data-eng/blob/master/docs/diagrama_arq_projeto_datalake.svg" width="700"/>
 </p>
 
 ## Modelos de dados
@@ -74,7 +74,7 @@ _em pipelines/_
 pega os dados de `https://www.gov.br/cgu/pt-br/acesso-a-informacao/dados-abertos/arquivos/terceirizados/arquivos` e exporta para um bucket raw do google cloud platfform.
 
 <p align="center">
-  <img src="docs/layers_gcp_projeto.png" width="480"/>
+  <img src="https://github.com/TalissaMoura/iplanrio-desafio-data-eng/blob/master/docs/layers_gcp_projeto.png" width="480"/>
 </p>
 
 - gov_terceirizados (_pipelines/gov_terceirizados_)): É a pipeline de extração, carregamento e transformação. Ela que constroi as
@@ -82,7 +82,7 @@ camadas do datalake (gold, silver e bronze). Ela utiliza das definições dos mo
 fazer as transformações e testes dos dados. Cada camada é uma pasta no bucket S3.
 
 <p align="center">
-  <img src="docs/dados_da_camada_raw.png" width="480"/>
+  <img src="https://github.com/TalissaMoura/iplanrio-desafio-data-eng/blob/master/docs/dados_da_camada_raw.png" width="480"/>
 </p>
 
 ## API
