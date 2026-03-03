@@ -28,7 +28,7 @@ O projeto é dividido em:
 Os dados são organizados em camadas, seguindo uma arquitetura de data lake de medalhão (gold, silver e bronze).
 
 <p align="center">
-  <img src="https://github.com/TalissaMoura/iplanrio-desafio-data-eng/blob/master/docs/diagrama_arq_projeto_datalake.svg" width="700"/>
+  <img src="https://github.com/TalissaMoura/iplanrio-desafio-data-eng/blob/master/docs/diagrama_arq_projeto_datalake.svg" width="350"/>
 </p>
 
 ## Modelos de dados
