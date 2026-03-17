@@ -15,3 +15,4 @@ dw/package-lock.yml
 # Ignora arquivos de sistema
 .DS_Store
 .git/
+docs/

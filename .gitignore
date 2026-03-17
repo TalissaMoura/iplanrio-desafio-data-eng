@@ -26,3 +26,4 @@ api/config/
 .credentials/
 .vscode/
 **.duckdb
+docs/diretrizes_projeto
